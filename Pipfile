@@ -1,0 +1,28 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+flask = "*"
+sqlalchemy = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-swagger = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+eralchemy = "*"
+flask-cors = "*"
+mysqlclient = "*"
+
+[requires]
+python_version = "3.6"
+
+[scripts]
+start="flask run -p 3000"
+init="flask db init"
+migrate="flask db migrate"
+upgrade="flask db upgrade"
+diagram="python3 diagram.py"
