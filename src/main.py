@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
-from models import db, Person
+from models import db, Client
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
@@ -24,10 +24,10 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/person', methods=['POST', 'GET'])
-def handle_person():
+@app.route('/client', methods=['POST', 'GET'])
+def handle_client():
     """
-    Create person and retrieve all persons
+    Create client and retrieve all clients
     """
 
     # POST request
@@ -36,29 +36,32 @@ def handle_person():
 
         if body is None:
             raise APIException("You need to specify the request body as a json object", status_code=400)
-        if 'username' not in body:
-            raise APIException('You need to specify the username', status_code=400)
+        if 'name' not in body:
+            raise APIException('You need to specify the name', status_code=400)
         if 'email' not in body:
             raise APIException('You need to specify the email', status_code=400)
+        if 'password' not in body:
+            raise APIException('You need to specify the password', status_code=400)
 
-        user1 = Person(username=body['username'], email=body['email'])
+
+        user1 = Client(name=body['name'], email=body['email'], password=body['password'])
         db.session.add(user1)
         db.session.commit()
         return "ok", 200
 
     # GET request
     if request.method == 'GET':
-        all_people = Person.query.all()
+        all_people = Client.query.all()
         all_people = list(map(lambda x: x.serialize(), all_people))
         return jsonify(all_people), 200
 
     return "Invalid Method", 404
 
 
-@app.route('/person/<int:person_id>', methods=['PUT', 'GET', 'DELETE'])
-def get_single_person(person_id):
+@app.route('/client/<int:client_id>', methods=['PUT', 'GET', 'DELETE'])
+def get_single_client(client_id):
     """
-    Single person
+    Single client
     """
 
     # PUT request
@@ -67,7 +70,7 @@ def get_single_person(person_id):
         if body is None:
             raise APIException("You need to specify the request body as a json object", status_code=400)
 
-        user1 = Person.query.get(person_id)
+        user1 = Client.query.get(client_id)
         if user1 is None:
             raise APIException('User not found', status_code=404)
 
@@ -81,14 +84,14 @@ def get_single_person(person_id):
 
     # GET request
     if request.method == 'GET':
-        user1 = Person.query.get(person_id)
+        user1 = Client.query.get(client_id)
         if user1 is None:
             raise APIException('User not found', status_code=404)
         return jsonify(user1.serialize()), 200
 
     # DELETE request
     if request.method == 'DELETE':
-        user1 = Person.query.get(person_id)
+        user1 = Client.query.get(client_id)
         if user1 is None:
             raise APIException('User not found', status_code=404)
         db.session.delete(user1)
