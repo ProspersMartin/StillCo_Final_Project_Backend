@@ -128,6 +128,8 @@ def get_single_client(client_id):
             client1.email = body["email"]
         if "password" in body:
             client1.password = body["password"]
+        if "client_login_status" in body:
+            client1.client_login_status = body["client_login_status"]
 
         db.session.commit()
         return jsonify(client1.serialize()), 200

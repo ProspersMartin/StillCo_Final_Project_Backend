@@ -16,6 +16,7 @@ class Client(db.Model):
     name = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, default=None, nullable=False)
     password = db.Column(db.String(120), unique=True, default=None, nullable=False)
+    client_login_status = db.Column(db.Boolean(), default=False)
 
     orders_id = db.Column(Integer, ForeignKey('orders.id'))
     service_catalog_id = db.Column(Integer, ForeignKey('service_catalog.id'))
@@ -30,7 +31,8 @@ class Client(db.Model):
             "client_id": self.client_id,
             "name": self.name,
             "email": self.email,
-            "password": self.password
+            "password": self.password,
+            "client_login_status": self.client_login_status
         }
 
 
