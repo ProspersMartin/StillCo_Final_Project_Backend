@@ -189,12 +189,15 @@ def handle_orders():
         #     raise APIException('You need to specify the date created', status_code=400)
         # if 'assigned_consultant' not in body:
         #     raise APIException('You need to specify the assigned_consultant', status_code=400)
+        items = body['items']
+        for item in items:
+            order1 = Orders(
+                client_email=item.client_email,
+                total=item.price)
+            db.session.add(order1)
 
-        order1 = Orders(client_email=body['client_email'])
-                            #    total=body['total'],
-                        # order_number=body['order_number'],
-                        # date_created=body['date_created'],
-        db.session.add(order1)
+
+
         db.session.commit()
         return "ok", 200
 
@@ -291,11 +294,23 @@ def handle_service_catalog():
             raise APIException("You need to specify the request body as a json object",
                                status_code=400)
 
-        if 'service' not in body:
+        if 'service_name' not in body:
+            raise APIException('You need to specify the service', status_code=400)
+        if 'assigned_consultant' not in body:
+            raise APIException('You need to specify the service', status_code=400)
+        if 'description' not in body:
+            raise APIException('You need to specify the service', status_code=400)
+        if 'price' not in body:
+            raise APIException('You need to specify the service', status_code=400)
+        if 'service_type' not in body:
+            raise APIException('You need to specify the service', status_code=400)
+        if 'package' not in body:
             raise APIException('You need to specify the service', status_code=400)
 
 
-        service1 = Service_catalog(service=body['service'])
+        service1 = Service_catalog(service_name=body['service_name'], assigned_consultant=body['assigned_consultant'],
+           description=body['description'], price=body['price'], service_type=body['service_type'], package=body['package'])
+
         db.session.add(service1)
         db.session.commit()
         return "ok", 200

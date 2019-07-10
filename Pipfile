@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+eralchemy = "*"
 
 [packages]
 flask = "*"
@@ -13,10 +14,10 @@ flask-migrate = "*"
 flask-swagger = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
-eralchemy = "*"
 flask-cors = "*"
 mysqlclient = "*"
 flask-jwt-simple = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"

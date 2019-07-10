@@ -1,12 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Table, Column, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Table, Column, Integer, ForeignKey, Sequence
 
+from sqlalchemy.orm import relationship
+from datetime import datetime
 
 db = SQLAlchemy()
-
-
-
 
 # *************************        CLIENT TABLE         *******************************
 # *************************************************************************************
@@ -44,17 +42,16 @@ class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
     date_created = db.Column(db.DateTime, nullable=True, default=None)
-    client_email = db.Column(db.String(120), nullable=True, default=None)
+    # order_number = db.Column(db.Integer(unsigned=True, zerofill=True), db.Sequence('orders_order_number_seq', start=1, increment=1), nullable=False)
+    client_email = db.Column(db.String(120), nullable=True)
     meeting_type = db.Column(db.String(120), nullable=True, default=None)
     discount = db.Column(db.Integer, nullable=True, default=None)
-    payment_type = db.Column(db.String(120), nullable=True, default=None)
     payment_status = db.Column(db.String(120), nullable=True, default=None)
     order_status = db.Column(db.String(20), default = 'Open', nullable=True)
     order_notes = db.Column(db.String(5000), nullable=True, default=None)
     order_issues = db.Column(db.String(5000), nullable=True, default=None)
-    date_completed = db.Column(db.DateTime, nullable=True, default=None)
+    date_completed = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
     total = db.Column(db.Integer, nullable=True, default=None)
-    # order_number = db.Column(db.Integer, nullable=True, default=None)
     # selected_services = db.Column(db.String(5000), nullable=True, default=None)
     # assigned_consultant = db.Column(db.String(120), nullable=True, default=None)
 
@@ -72,9 +69,10 @@ class Orders(db.Model):
             "date_created": self.date_created,
             "order_status": self.order_status,
             "total": self.total
+            # "selected_services": self.selected_services,
+
             # "order_number": self.order_number,
             # "assigned_consultant": self.assigned_consultant,
-            # "selected_services": self.selected_services,
         }
 
 
@@ -85,8 +83,8 @@ class Orders(db.Model):
 class Service_catalog (db.Model):
     __tablename__ = 'service_catalog'
     id = db.Column(db.Integer, primary_key=True)
+    service_name = db.Column(db.String(120), nullable=True, default=None)
     assigned_consultant = db.Column(db.String(120), nullable=True, default=None)
-    service = db.Column(db.String(120), nullable=True, default=None)
     description = db.Column(db.String(5000), nullable=True, default=None)
     price = db.Column(db.Integer, nullable=True, default=None)
 
@@ -104,8 +102,13 @@ class Service_catalog (db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "service": self.service,
+            "service_name": self.service_name,
             "assigned_consultant": self.assigned_consultant,
+            "description": self.description,
+            "price": self.price,
             "service_type": self.service_type,
-            "price": self.price
+            "package": self.package
         }
+
+
+
