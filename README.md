@@ -6,4 +6,5 @@ Python, SQL, MySQL, SQLAlchemy, Flask, and Postman were used for this applicatio
 
 ## Deployment
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/ProspersMartin/StillCo_Final_Project_Backend)
+
 The Back End was initially developed on gitpod. However, it was deployed via Heroku. If you would like to view it on gitpod, click the button above.
