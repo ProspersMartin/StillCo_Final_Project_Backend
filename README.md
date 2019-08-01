@@ -3,3 +3,5 @@ This is the fully functional Back End of the web application for The Still Colle
 
 ## Build  
 Python, SQL, MySQL, SQLAlchemy, Flask, and Postman were used for this application's Back End development.
+
+## Deployment
