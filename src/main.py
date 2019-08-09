@@ -346,7 +346,7 @@ def get_single_service(id):
         if "assigned_consultant" in body:
             service1.assigned_consultant = body["assigned_consultant"]
         if "service_name" in body:
-            service1.service = body["service_name"]
+            service1.service_name = body["service_name"]
         if "description" in body:
             service1.description = body["description"]
         if "price" in body:
