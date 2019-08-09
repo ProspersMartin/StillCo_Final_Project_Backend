@@ -108,7 +108,6 @@ class Service_catalog (db.Model):
             "price": self.price,
             "service_type": self.service_type,
             "package": self.package
-
         }
 
 

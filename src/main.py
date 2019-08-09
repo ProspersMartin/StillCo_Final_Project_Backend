@@ -297,15 +297,15 @@ def handle_service_catalog():
         if 'service_name' not in body:
             raise APIException('You need to specify the service', status_code=400)
         if 'assigned_consultant' not in body:
-            raise APIException('You need to specify the service', status_code=400)
+            raise APIException('You need to specify the assigned consultant', status_code=400)
         if 'description' not in body:
-            raise APIException('You need to specify the service', status_code=400)
+            raise APIException('You need to specify the description', status_code=400)
         if 'price' not in body:
-            raise APIException('You need to specify the service', status_code=400)
+            raise APIException('You need to specify the price', status_code=400)
         if 'service_type' not in body:
-            raise APIException('You need to specify the service', status_code=400)
+            raise APIException('You need to specify the service type', status_code=400)
         if 'package' not in body:
-            raise APIException('You need to specify the service', status_code=400)
+            raise APIException('You need to specify the package', status_code=400)
 
 
         service1 = Service_catalog(service_name=body['service_name'], assigned_consultant=body['assigned_consultant'],
@@ -341,12 +341,12 @@ def get_single_service(id):
 
         service1 = Service_catalog.query.get(id)
         if service1 is None:
-            raise APIException('Order not found', status_code=404)
+            raise APIException('Service not found', status_code=404)
 
         if "assigned_consultant" in body:
             service1.assigned_consultant = body["assigned_consultant"]
-        if "service" in body:
-            service1.service = body["service"]
+        if "service_name" in body:
+            service1.service = body["service_name"]
         if "description" in body:
             service1.description = body["description"]
         if "price" in body:
@@ -370,7 +370,7 @@ def get_single_service(id):
     if request.method == 'DELETE':
         service1 = Service_catalog.query.get(id)
         if service1 is None:
-            raise APIException('Order not found', status_code=404)
+            raise APIException('Service not found', status_code=404)
         db.session.delete(service1)
         db.session.commit()
         return "ok", 200
